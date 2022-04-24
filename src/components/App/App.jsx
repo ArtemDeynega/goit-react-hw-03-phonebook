@@ -41,8 +41,6 @@ export class App extends Component {
       name,
       number,
     };
-    const contactJson = JSON.stringify(newContact);
-    console.log(contactJson);
 
     contacts.find(
       contact => newContact.name.toLowerCase() === contact.name.toLowerCase()
