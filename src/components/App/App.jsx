@@ -6,18 +6,34 @@ import { ContactEditor } from 'components/ContactEditor';
 import { ContactList } from 'components/ContactList';
 
 import { GlobalStyles } from 'GlobalStyles/GlobalStyles';
+
+const initalState = {
+  contacts: [],
+  filter: '',
+};
 export class App extends Component {
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
-    filter: '',
-    name: '',
-    number: '',
+    ...initalState,
   };
+  #localStorageContactsKey = 'contacts';
+  componentDidMount() {
+    const localStorageContacts = localStorage.getItem(
+      this.#localStorageContactsKey
+    );
+    // console.log(localStorageContacts);
+    if (localStorageContacts) {
+      const contacts = JSON.parse(localStorageContacts);
+      this.setState({ contacts });
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem(
+        this.#localStorageContactsKey,
+        JSON.stringify(this.state.contacts)
+      );
+    }
+  }
   onAddContact = ({ name, number }) => {
     const { contacts } = this.state;
     const newContact = {
@@ -25,6 +41,9 @@ export class App extends Component {
       name,
       number,
     };
+    const contactJson = JSON.stringify(newContact);
+    console.log(contactJson);
+
     contacts.find(
       contact => newContact.name.toLowerCase() === contact.name.toLowerCase()
     )
