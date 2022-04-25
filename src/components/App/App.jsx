@@ -15,23 +15,20 @@ export class App extends Component {
   state = {
     ...initalState,
   };
-  #localStorageContactsKey = 'contacts';
+  #localStorageKey = 'contacts';
   componentDidMount() {
-    const localStorageContacts = localStorage.getItem(
-      this.#localStorageContactsKey
-    );
+    const localStorageContacts = localStorage.getItem(this.#localStorageKey);
 
     if (localStorageContacts) {
       const contacts = JSON.parse(localStorageContacts);
       this.setState({ contacts });
     }
   }
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem(
-        this.#localStorageContactsKey,
-        JSON.stringify(this.state.contacts)
-      );
+
+  componentDidUpdate(preProps, prevState) {
+    const { contacts } = this.state;
+    if (contacts !== prevState.contacts) {
+      localStorage.setItem(this.#localStorageKey, JSON.stringify(contacts));
     }
   }
   onAddContact = ({ name, number }) => {
