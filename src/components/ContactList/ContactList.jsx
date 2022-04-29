@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { InputLabel, InputFilter, ListItem, Button, Item } from '.';
+import { InputLabel, InputFilter, Item } from '.';
+import { ContactListItem } from './CotanctListItem';
 
 export const ContactList = ({ contacts, onDelete, value, onChangeFiter }) => {
   return (
@@ -15,12 +16,13 @@ export const ContactList = ({ contacts, onDelete, value, onChangeFiter }) => {
       </InputLabel>
       <Item>
         {contacts.map(({ name, number, id }) => (
-          <ListItem key={id}>
-            {name} : {number}
-            <Button type="button" onClick={() => onDelete(id)}>
-              Delete
-            </Button>
-          </ListItem>
+          <ContactListItem
+            key={id}
+            id={id}
+            name={name}
+            number={number}
+            deleteItem={onDelete}
+          />
         ))}
       </Item>
     </>
