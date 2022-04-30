@@ -18,10 +18,9 @@ export const ContactList = ({ contacts, onDelete, value, onChangeFiter }) => {
         {contacts.map(({ name, number, id }) => (
           <ContactListItem
             key={id}
-            id={id}
             name={name}
             number={number}
-            deleteItem={onDelete}
+            deleteItem={() => onDelete(id)}
           />
         ))}
       </Item>
